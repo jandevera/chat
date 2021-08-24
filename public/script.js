@@ -88,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('users-online').appendChild(userItem);
         })
 
-        window.dispatchEvent(new Event('resize'));
         messageItem.scrollIntoView();
     }
 
@@ -98,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div id="login">
                 <h1>Chat demo</h1>
                 <form id="login-form" autocomplete="off">
-                    <input type="text" id="username" placeholder="Username" maxlength="12"/>
+                    <input type="text" id="username" placeholder="Create a username" maxlength="12"/>
                     <input type="text" id="room-code" class="is-valid" placeholder="Room code (leave empty to create room)" maxlength="4"/>
                     <input type="submit" id="enter" value="Create" />
                 </form>
@@ -164,10 +163,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('output').innerHTML = `
             <div id="chat">
                 <div id="chat-sidebar">
-                    <button id="leave-room">Leave room</button>
-                    <button id="hide-sidebar">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                    </button>
+                    <div class="sidebar-menu">
+                        <button id="leave-room">Leave room</button>
+                        <button id="hide-sidebar">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                    </div>
                     <h2>People in this room:</h2>
                     <ul id="users-online"></ul>
                 </div>
@@ -214,33 +215,5 @@ document.addEventListener('DOMContentLoaded', () => {
         hideSidebarButton.onclick = () => {
             chatSidebar.classList.remove('active');
         }
-
-        function setSizes() {
-            const headerHeight = document.querySelector('#chat .content-menu').offsetHeight;
-            const messageFormHeight = document.getElementById('message-form').offsetHeight;
-            const windowHeight = window.innerHeight < window.outerHeight ? window.innerHeight : window.outerHeight;
-            const windowWidth = window.innerWidth < window.outerWidth ? window.innerWidth : window.outerWidth;
-            const messageListHeight = windowHeight - headerHeight - messageFormHeight;
-            const sidebarWidth = document.getElementById('chat-sidebar').offsetWidth;
-
-            document.getElementById('message-list').style.marginBottom = `${messageFormHeight}px`;
-            document.getElementById('message-list').style.height = `${messageListHeight}px`;
-
-            if (sidebarWidth >= 300 && windowWidth >= 768) {
-                document.querySelector('#chat .content').style.width = `${windowWidth - sidebarWidth}px`;
-            } else {
-                document.querySelector('#chat .content').style.width = '100%';
-            }
-
-            document.querySelectorAll('#chat > div').forEach(item => {
-                item.style.height = `${windowHeight}px`;
-            });
-
-            document.getElementById('message-content').style.width = `${document.getElementById('message-form').offsetWidth - document.getElementById('send-message').offsetWidth - 24}px`;
-        }
-
-        setSizes();
-        // window.onresize = setSizes;
-        window.addEventListener('resize', setSizes);
     }
 })

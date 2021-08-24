@@ -6,6 +6,10 @@
 */
 
 /* general styling */
+html, body, #output {
+    height: 100%;
+}
+
 body {
     background-color: #AFD2E9;
     margin: 0;
@@ -73,35 +77,46 @@ h1, h2, h3, h4, h5, h6, p, input, li {
 
 /* chat page */
 #chat {
-    position: relative;
-    max-width: 768px;
-    margin: auto;
+    height: 100%;
 }
 
+/* sidebar */
 #chat-sidebar {
     position: absolute;
     width: 100%;
+    height: 100%;
     left: -100%;
     background-color: #1F5673;
     transition-duration: 0.25s;
     padding: 16px;
     box-sizing: border-box;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 #chat-sidebar.active {
     left: 0;
 }
 
+#chat-sidebar .sidebar-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 #chat-sidebar button {
     width: fit-content;
     padding: 4px 8px;
-    margin: 16px;
     border-radius: 8px;
     background-color: #1F5673;
     color: #EFF6FB;
     cursor: pointer;
     transition-duration: 0.25s;
+}
+
+#hide-sidebar {
+    font-size: 32px;
 }
 
 #chat-sidebar h2,
@@ -114,7 +129,6 @@ h1, h2, h3, h4, h5, h6, p, input, li {
 }
 
 #hide-sidebar {
-    float: right;
     border: none;
 }
 
@@ -130,13 +144,22 @@ h1, h2, h3, h4, h5, h6, p, input, li {
     color: lime;
 }
 
+/* main chat window */
 #chat .content {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
+
+/* main chat menu */
 #chat .content-menu {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px;
     background-color: #1F5673;
-    padding: 8px;
+    flex-shrink: 0;
+    align-items: center;
 }
 
 #chat .content-menu h2 {
@@ -151,31 +174,20 @@ h1, h2, h3, h4, h5, h6, p, input, li {
     margin-top: 4px;
     border-radius: 8px;
     background-color: #1F5673;
-    border: 1px solid #EFF6FB;
+    border: none;
     color: #EFF6FB;
     cursor: pointer;
+    font-size: 32px;
     transition-duration: 0.25s;
 }
 
-#show-sidebar:hover {
-    color: #1F5673;
-    background-color: #EFF6FB;
-}
-
-#message-list,
-#message-form {
-    padding: 8px;
-}
-
+/* message thread */
 #message-list {
     list-style: none;
-    overflow: hidden;
-    box-sizing: border-box;
-    margin-top: 0;
-}
-
-#message-list li {
-    margin-top: 16px;
+    padding: 8px;
+    overflow: auto;
+    margin: 0;
+    flex-grow: 1;
 }
 
 #message-list .notification {
@@ -183,12 +195,7 @@ h1, h2, h3, h4, h5, h6, p, input, li {
     text-align: center;
 }
 
-#message-list .username-container {
-    font-size: 12px;
-    color: #1F5673;
-    width: fit-content;
-}
-
+/* message blobs */
 #message-list .message-container {
     padding: 4px 16px;
     border-radius: 16px;
@@ -199,7 +206,14 @@ h1, h2, h3, h4, h5, h6, p, input, li {
     margin-top: 4px;
 }
 
+/* their messages */
 #message-list .their-message {
+    width: fit-content;
+}
+
+#message-list .their-message .username-container {
+    font-size: 12px;
+    color: #1F5673;
     width: fit-content;
 }
 
@@ -208,6 +222,7 @@ h1, h2, h3, h4, h5, h6, p, input, li {
     color: #1F5673;
 }
 
+/* messages from me */
 #message-list .my-message {
     margin-left: auto;
     width: fit-content;
@@ -223,27 +238,26 @@ h1, h2, h3, h4, h5, h6, p, input, li {
     margin-left: auto;
 }
 
+/* the section where you send messages */
 #message-form {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #EFF6FB
+    padding: 8px;
+    background-color: #EFF6FB;
+    flex-shrink: 0;
+    display: flex;
 }
 
 #message-content {
-    width: 100%;
     padding: 8px 16px;
+    margin: 0 8px;
     border: 1px solid #EFF6FB;
     border-radius: 8px;
     outline: none;
     background-color: #EFF6FB;
-    box-sizing: border-box;
+    flex-grow: 1;
 }
 
 #send-message {
-    position: absolute;
-    right: 8px;
+    margin: 0 8px;
     padding: 8px;
     border-radius: 8px;
     background-color: #1F5673;
@@ -251,29 +265,24 @@ h1, h2, h3, h4, h5, h6, p, input, li {
     color: #EFF6FB;
     cursor: pointer;
     transition-duration: 0.25s;
+    flex-shrink: 0;
 }
 
+/* handle big screens */
 @media (min-width: 768px) {
     #chat {
-        max-width: unset;
-        width: 100%;
-    }
-
-    #chat-sidebar, #chat .content {
-        box-sizing: border-box;
+        display: flex;
     }
 
     #chat-sidebar {
-        float: left;
         position: static;
-        width: 40%;
+        flex-basis: 30%;
         max-width: 300px;
+        border-right: 1px solid #AFD2E9;
     }
 
     #chat .content {
-        width: 60%;
-        float: right;
-        position: relative;
+        flex-grow: 1;
     }
 
     #show-sidebar, #hide-sidebar {

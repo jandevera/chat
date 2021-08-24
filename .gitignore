@@ -1,3 +1,4 @@
 .env
 /public/reset.css
+/public/old_style.css
 node_modules

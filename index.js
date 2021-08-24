@@ -19,7 +19,6 @@ app.use(express.static("public"));
 // checks for client connecting to server
 io.on('connection', (socket) => {
     users.push({ id: socket.id });
-    console.log('user connected', socket.id, users);
 
     // login events
     socket.on('create-room-attempt', (username) => {
@@ -43,13 +42,10 @@ io.on('connection', (socket) => {
             users[userIndex].roomCode = roomCode;
             socket.join(roomCode);
             socket.emit('create-room-successful', username, roomCode);
-            console.log(username, 'has entered room', roomCode, users);
             io.to(roomCode).emit('create-room-notification', username, roomCode, users.filter(user => user.roomCode === roomCode));
         } else {
             socket.emit('create-room-failed');
         }
-
-        // console.log(io.sockets.adapter.rooms);
     });
 
     socket.on('join-room-attempt', (username, roomCode) => {
@@ -71,8 +67,6 @@ io.on('connection', (socket) => {
         } else {
             socket.emit('join-room-failed', 'join room failed');
         }
-
-        // console.log(io.sockets.adapter.rooms);
     });
 
     // chat room events
@@ -94,8 +88,6 @@ io.on('connection', (socket) => {
         } else {
             socket.emit('leave-room-failed');
         }
-
-        // console.log(io.sockets.adapter.rooms);
     });
 
     socket.on('message-to-server', (message) => {
@@ -120,8 +112,6 @@ io.on('connection', (socket) => {
         if (username && roomCode) {
             io.to(roomCode).emit('leave-room-notification', username, roomCode, users.filter(user => user.roomCode === roomCode));   
         }
-
-        // console.log(io.sockets.adapter.rooms);
     });
 });
 
